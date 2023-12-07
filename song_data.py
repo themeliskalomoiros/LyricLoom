@@ -1,7 +1,7 @@
 from models import Song, Artist
 
 
-class ScrapedData:
+class SongData:
     def __init__(self):
         self.song = None
         self.authors = []
