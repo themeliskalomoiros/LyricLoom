@@ -12,13 +12,13 @@ def urls(song_web_ids):
     return urls
 
 
-def scrap_domna_samiou_gr():
+def domna_samiou_gr():
     repo = SqlRepo('stixoi.db')
     for url in urls(range(1, 5)):
         try:
             scraper = DomnaSamiouScraper(url)
             song = scraper.scrap_song_info()
-            # repo.save(song)
+            repo.save(song)
         except ScrapException:
             # TODO: scraper.url should be a property of the parent class
             print(f'Scrap-Error: during scrap of {scraper.url}')
@@ -31,5 +31,6 @@ def scrap_domna_samiou_gr():
         except InvalidTagException:
             print(f'Repo-Error: invalid tag for song {song.song.Title}')
 
+
 if __name__ == '__main__':
-    scrap_domna_samiou_gr()
+    domna_samiou_gr()

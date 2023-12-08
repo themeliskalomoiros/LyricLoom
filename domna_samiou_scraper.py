@@ -15,25 +15,25 @@ class DomnaSamiouScraper(SongScraper):
         self.soup = self.page_soup(self.url)
 
 
-    def scrap_song(self):
+    def scrap_song_info(self):
         title = self.scrap_title()
         lyrics = self.scrap_lyrics()
         youtube = self.scrap_youtube()
         spotify = self.scrap_spotify()
-        song = SongInfo(title, lyrics, None, youtube, spotify)
+        info = SongInfo(title, lyrics, None, youtube, spotify)
         
-        song.add_author(self.PARADOSI)
-        song.add_composer(self.PARADOSI)
+        info.add_author(self.PARADOSI)
+        info.add_composer(self.PARADOSI)
         
         singers = self.scrap_singers()
         for s in singers:
-            song.add_singer(s)
+            info.add_singer(s)
 
         tags = self.scrap_tags()
         for t in tags:
-            song.add_tag(t)
+            info.add_tag(t)
 
-        return song
+        return info
 
 
     def scrap_title(self):

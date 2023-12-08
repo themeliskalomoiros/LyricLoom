@@ -13,8 +13,10 @@ class SongAlreadyExistException(Exception):
     pass
 
 
+
 class InvalidArtistException(Exception):
     pass
+
 
 
 class InvalidTagException(Exception):
