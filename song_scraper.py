@@ -4,10 +4,18 @@ from abc import ABC, abstractmethod
 
 
 class SongScraper(ABC):
-    def __init__(self, song_url):
-        self.song_url = song_url
-
-
     @abstractmethod
     def scrap_song(self) -> SongInfo:
         pass
+
+
+
+class PageNotLoadedException(Exception):
+    """Thrown when a web page could not be loaded."""
+    pass
+
+
+
+class ScrapException(Exception):
+    """Thrown when something went wrong during the scraped of the data."""
+    pass
