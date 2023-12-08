@@ -24,6 +24,16 @@ class Song:
         return s
 
 
+    def __eq__(self, other):
+        if isinstance(other, Song):
+            return self.title == other.title and self.lyrics == other.lyrics
+        return False
+
+
+    def __hash__(self):
+        return hash((self.title, self.lyrics))
+
+
 class Artist:
     def __init__(self, firstname, lastname):
         self.firstname = firstname
@@ -32,6 +42,17 @@ class Artist:
 
     def __str__(self):
         return f'Artist: {self.firstname} {self.lastname}'
+
+
+    def __eq__(self, other):
+        if isinstance(other, Artist):
+            return self.firstname == other.firstname and self.lastname == other.lastname
+        return False
+
+
+    def __hash__(self):
+        return hash((self.firstname, self.lastname))
+
 
 
 def unknown_artist():
