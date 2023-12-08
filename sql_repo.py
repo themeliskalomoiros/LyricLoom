@@ -31,7 +31,7 @@ class SqlRepo(SongRepo):
 
     def insert_song(self, song):
         query = 'INSERT INTO Songs(Title, Lyrics, ReleaseDate, YoutubeLink) VALUES(?, ?, ?, ?)'
-        values = (song.title, song.lyrics, song.release_date, song.youtube)
+        values = (song.title, song.lyrics, song.year, song.youtube)
         try:
             self.cursor.execute(query, values)
             return self.cursor.lastrowid

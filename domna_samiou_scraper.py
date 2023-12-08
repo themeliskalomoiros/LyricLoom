@@ -69,27 +69,31 @@ class DomnaSamiouScraper(SongScraper):
             
 
     def scrap_singers(self):
-        tag = self.soup.find(id='song-info')
+        ul_tags = self.soup.find(id='song-info').find_all('ul')
+        
+        for ul in ul_tags:
+            for li in ul.children:
+                prefix = 'Τραγούδι:'
+                li_text = li.get_text()
 
-        if tag:
-            text = tag.get_text(strip=True)
-            text = text.split('Δισκογραφία')[0]
-            index_of_tragoudi = text.find('Τραγούδι:')
-            
-            if index_of_tragoudi == -1:
-                return [unknown_artist()]
-            else:
-                text = text[index_of_tragoudi + len('Τραγούδι:'):]
-                singer_names = text.split(',')
-                for i in range(0, len(singer_names)):
-                    singer_names[i] = singer_names[i].strip()
-                singers = []
-                for item in singer_names:
-                    first_and_lastname = item.split()
-                    singers.append(Artist(first_and_lastname[0], first_and_lastname[1]))
-                return singers
-        else:
-            raise ScrapException(f'Singers not scraped {self.url}')
+                if prefix in li_text:
+                    # Singers found
+                    li_text = li_text.removeprefix(prefix).strip()
+                    if ',' in li_text:
+                        # Many singers
+                        singer_strings =  li_text.split(',')
+                        for i in range(0, len(singer_strings)):
+                            singer_strings[i] = singer_strings[i].strip()
+                        singers = []
+                        for s in singer_strings:
+                            first_last = s.split()
+                            singers.append(Artist(first_last[0], first_last[1]))
+                        return singers
+                    else:
+                        # One singer
+                        first_last = li_text.split()
+                        return [Artist(first_last[0], first_last[1])]
+        return [unknown_artist()]
 
 
     def scrap_tags(self):
