@@ -24,7 +24,7 @@ def urls(song_web_ids):
 def domna_samiou_gr():
     
     progress = 1
-    progressMax = 4 
+    progressMax = 930
     insertions = 0
     failed_insertions = 0
     repo = SqlRepo('stixoi.db')
@@ -45,6 +45,9 @@ def domna_samiou_gr():
             info = scraper.scrap_song_info()
             repo.save(info)
             insertions += 1
+            if insertions % 100 == 0:
+                repo.commit()
+
         except ScrapException:
             failed_insertions += 1
             log(insertions, failed_insertions)
@@ -60,6 +63,7 @@ def domna_samiou_gr():
         except InvalidTagException:
             failed_insertions += 1
             log(insertions, failed_insertions)
+
     
     printProgressBar(
         1, 
