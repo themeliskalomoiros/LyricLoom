@@ -92,7 +92,11 @@ class DomnaSamiouScraper(SongScraper):
                     else:
                         # One singer
                         first_last = li_text.split()
-                        return [Artist(first_last[0], first_last[1])]
+                        if len(first_last) > 0:
+                            if len(first_last) > 1:
+                                return [Artist(first_last[0], first_last[1])]
+                            else:
+                                return [Artist(first_last[0], '')]
         return [unknown_artist()]
 
 
