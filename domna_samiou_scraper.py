@@ -1,5 +1,5 @@
 import requests
-from models import Artist, paradosiako_artist
+from models import Artist, paradosiako_artist, unknown_artist
 from bs4 import BeautifulSoup
 from song_repo import SongRepo
 from song_info import SongInfo
@@ -75,15 +75,19 @@ class DomnaSamiouScraper(SongScraper):
             text = tag.get_text(strip=True)
             text = text.split('Δισκογραφία')[0]
             index_of_tragoudi = text.find('Τραγούδι:')
-            text = text[index_of_tragoudi + len('Τραγούδι:'):]
-            singer_names = text.split(',')
-            for i in range(0, len(singer_names)):
-                singer_names[i] = singer_names[i].strip()
-            singers = []
-            for item in singer_names:
-                first_and_lastname = item.split()
-                singers.append(Artist(first_and_lastname[0], first_and_lastname[1]))
-            return singers
+            
+            if index_of_tragoudi == -1:
+                return [unknown_artist()]
+            else:
+                text = text[index_of_tragoudi + len('Τραγούδι:'):]
+                singer_names = text.split(',')
+                for i in range(0, len(singer_names)):
+                    singer_names[i] = singer_names[i].strip()
+                singers = []
+                for item in singer_names:
+                    first_and_lastname = item.split()
+                    singers.append(Artist(first_and_lastname[0], first_and_lastname[1]))
+                return singers
         else:
             raise ScrapException(f'Singers not scraped {self.url}')
 
@@ -100,7 +104,15 @@ class DomnaSamiouScraper(SongScraper):
                 for text in li_texts:
                     for label in tag_labels:
                         if label in text:
-                            tags.append(text.removeprefix(label))
+                            text = text.removeprefix(label)
+                            if ',' in text:
+                                # Ex, 'Ταξινόμιση' could include 'Της Αγαπης, Του έρωτά' (2 values)
+                                many_tags_in_label = text.split(',')
+                                for tag in many_tags_in_label:
+                                    tags.append(tag)
+                            else:
+                                tags.append(text.removeprefix(label))
+
         return tags
 
 
