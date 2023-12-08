@@ -1,7 +1,16 @@
 from sql_repo import SqlRepo
+from progress_bar import printProgressBar
 from domna_samiou_scraper import DomnaSamiouScraper
 from song_scraper import PageNotLoadedException, ScrapException
 from song_repo import SongAlreadyExistException, InvalidArtistException, InvalidTagException
+
+
+def log(successful_insertions, failed_insertions):
+    f = open('log.txt', 'w')
+    f.write(f'Inserted:\t\t{successful_insertions}')
+    f.write(f'\nFailed:\t\t\t{failed_insertions}')
+    f.write(f'\nTotal:\t\t\t{failed_insertions + successful_insertions}')
+    f.close()
 
 
 def urls(song_web_ids):
@@ -13,23 +22,52 @@ def urls(song_web_ids):
 
 
 def domna_samiou_gr():
+    
+    progress = 1
+    progressMax = 4 
+    insertions = 0
+    failed_insertions = 0
     repo = SqlRepo('stixoi.db')
-    for url in urls(range(1, 4)):
+
+
+    for url in urls(range(progress, progressMax)):
+        printProgressBar(
+            progress, 
+            progressMax, 
+            prefix = 'Progress:', 
+            suffix = 'Complete', 
+            length = 100)
+
+        progress += 1
+
         try:
             scraper = DomnaSamiouScraper(url)
             info = scraper.scrap_song_info()
             repo.save(info)
+            insertions += 1
         except ScrapException:
-            # TODO: scraper.url should be a property of the parent class
-            print(f'Scraper: error during scrap of {scraper.url}')
+            failed_insertions += 1
+            log(insertions, failed_insertions)
         except PageNotLoadedException:
-            print(f'Scraper: could not load page {scraper.url} (internet connection OK?)')
+            failed_insertions += 1
+            log(insertions, failed_insertions)
         except SongAlreadyExistException:
-            print(f'Repo: song {info.song.title} already exists.')
+            failed_insertions += 1
+            log(insertions, failed_insertions)
         except InvalidArtistException:
-            print(f'Repo: invalid artist for song {info.song.title}')
+            failed_insertions += 1
+            log(insertions, failed_insertions)
         except InvalidTagException:
-            print(f'Repo: invalid tag for song {info.song.title}')
+            failed_insertions += 1
+            log(insertions, failed_insertions)
+    
+    printProgressBar(
+        1, 
+        1, 
+        prefix = 'Progress:', 
+        suffix = 'Complete', 
+        length = 100)
+    
     repo.commit()
     repo.close()
 
