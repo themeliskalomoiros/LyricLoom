@@ -4,11 +4,13 @@ class Song:
         title, 
         lyrics, 
         year = None, 
-        youtube = None):
+        youtube = None,
+        spotify = None):
         self.title = title
         self.lyrics = lyrics
         self.year = year
         self.youtube = youtube
+        self.spotify = spotify
 
 
     def __str__(self):
@@ -57,3 +59,7 @@ class Artist:
 
 def unknown_artist():
     return Artist('Άγνωστος', 'Καλλιτέχνης')
+
+
+def paradosiako_artist():
+    return Artist('Παραδοσιακό', '')
