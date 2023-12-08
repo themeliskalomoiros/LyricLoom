@@ -29,6 +29,10 @@ class DomnaSamiouScraper(SongScraper):
         for s in singers:
             song.add_singer(s)
 
+        tags = self.scrap_tags()
+        for t in tags:
+            song.add_tag(t)
+
         return song
 
 
@@ -68,8 +72,6 @@ class DomnaSamiouScraper(SongScraper):
         tag = self.soup.find(id='song-info')
 
         if tag:
-            # The text retrieved has this structure...
-            # ΤΡΑΓΟΥΔΙ: Δόμνα Σαμίου, Θεοπούλα Δοϊτσίδη, Μόρφω Δοϊτσίδη
             text = tag.get_text(strip=True)
             text = text.split('Δισκογραφία')[0]
             index_of_tragoudi = text.find('Τραγούδι:')
@@ -85,6 +87,21 @@ class DomnaSamiouScraper(SongScraper):
         else:
             raise ScrapException(f'Singers not scraped {self.url}')
 
+
+    def scrap_tags(self):
+        tags = []
+        div = self.soup.find(id='song-info')
+        
+        if div:
+            ul = div.find('ul')
+            if ul:
+                li_texts = [li.get_text(strip=True) for li in ul.find_all('li')]
+                tag_labels = ['Προέλευση:', 'Ταξινόμηση:', 'Τόπος:']
+                for text in li_texts:
+                    for label in tag_labels:
+                        if label in text:
+                            tags.append(text.removeprefix(label))
+        return tags
 
 
     def page_soup(self, url):
