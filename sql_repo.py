@@ -56,6 +56,8 @@ class SqlRepo(SongRepo):
             _id = self.artist_database_id(artist)
             if _id == INVALID_ROW_ID:
                 raise InvalidArtistException(f'Something went wrong with artist {artist}')
+            else:
+                return _id
 
 
     def artist_database_id(self, artist):
@@ -108,6 +110,8 @@ class SqlRepo(SongRepo):
             _id = self.tag_database_id(tag)
             if _id == INVALID_ROW_ID:
                 raise InvalidTagException(f'Something went wrong with tag {tag}')
+            else:
+                return _id
 
 
     def tag_database_id(self, tag):
