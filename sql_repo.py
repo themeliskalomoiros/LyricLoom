@@ -102,7 +102,7 @@ class SqlRepo(SongRepo):
 
     def insert_tag(self, tag):
         query = 'INSERT INTO Tags(Label) VALUES(?)'
-        values = (tag)
+        values = (tag,)
         try:
             self.cursor.execute(query, values)
             return self.cursor.lastrowid
@@ -116,7 +116,7 @@ class SqlRepo(SongRepo):
 
     def tag_database_id(self, tag):
         query = 'SELECT TagID FROM Tags WHERE Label = ?'
-        values = (tag)
+        values = (tag,)
         self.cursor.execute(query, values)
         id_tuple = self.cursor.fetchone()
 

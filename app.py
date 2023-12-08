@@ -14,22 +14,24 @@ def urls(song_web_ids):
 
 def domna_samiou_gr():
     repo = SqlRepo('stixoi.db')
-    for url in urls(range(1, 5)):
+    for url in urls(range(1, 4)):
         try:
             scraper = DomnaSamiouScraper(url)
-            song = scraper.scrap_song_info()
-            repo.save(song)
+            info = scraper.scrap_song_info()
+            repo.save(info)
         except ScrapException:
             # TODO: scraper.url should be a property of the parent class
-            print(f'Scrap-Error: during scrap of {scraper.url}')
+            print(f'Scraper: error during scrap of {scraper.url}')
         except PageNotLoadedException:
-            print(f'Scrap-Error: could not load page {scraper.url} (internet connection OK?)')
+            print(f'Scraper: could not load page {scraper.url} (internet connection OK?)')
         except SongAlreadyExistException:
-            print(f'Repo-Error: song {song.song.Title} already exists.')
+            print(f'Repo: song {info.song.title} already exists.')
         except InvalidArtistException:
-            print(f'Repo-Error: invalid artist for song {song.song.Title}')
+            print(f'Repo: invalid artist for song {info.song.title}')
         except InvalidTagException:
-            print(f'Repo-Error: invalid tag for song {song.song.Title}')
+            print(f'Repo: invalid tag for song {info.song.title}')
+    repo.commit()
+    repo.close()
 
 
 if __name__ == '__main__':
