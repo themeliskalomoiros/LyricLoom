@@ -1,4 +1,5 @@
-from song_data import SongData
+
+from song_info import SongInfo
 from abc import ABC, abstractmethod
 
 
@@ -8,5 +9,5 @@ class SongScraper(ABC):
 
 
     @abstractmethod
-    def scrap_song(self):
+    def scrap_song(self) -> SongInfo:
         pass

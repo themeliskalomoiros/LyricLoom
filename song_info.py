@@ -1,7 +1,7 @@
 from models import Song, Artist
 
 
-class SongData:
+class SongInfo:
     def __init__(self):
         self.song = None
         self.authors = set()
