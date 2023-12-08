@@ -51,13 +51,10 @@ class DomnaSamiouScraper(SongScraper):
 
 
     def scrap_youtube(self):
-        youtube_tag = self.soup.find('a', id='tools-youtube-music')
+        youtube_tag = self.soup.find(id='tools-youtube-music')
 
         if youtube_tag:
             return youtube_tag.get('href')
-        else:
-            # raise ScrapException(f'Youtube not scraped {self.url}')
-            print(f'Youtube not scraped {self.url}')
 
 
     def scrap_spotify(self):
@@ -65,10 +62,7 @@ class DomnaSamiouScraper(SongScraper):
 
         if spotify_tag:
             return spotify_tag.get('href')
-        else:
-            # raise ScrapException(f'Spotify not scraped {self.url}')
-            print(f'Spotify not scraped {self.url}')
-
+            
 
     def scrap_singers(self):
         tag = self.soup.find(id='song-info')
