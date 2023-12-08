@@ -6,3 +6,16 @@ class SongRepo(ABC):
     @abstractmethod
     def save(self, song_info):
         pass
+        
+
+
+class SongAlreadyExistException(Exception):
+    pass
+
+
+class InvalidArtistException(Exception):
+    pass
+
+
+class InvalidTagException(Exception):
+    pass
