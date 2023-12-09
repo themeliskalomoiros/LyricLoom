@@ -30,6 +30,7 @@ class SqlRepo(SongRepo):
 
 
     def insert_song(self, song):
+        # TODO: Use INSERT OR IGNORE and avoid raising IntegrityError
         query = 'INSERT INTO Songs(Title, Lyrics, ReleaseDate, YoutubeLink) VALUES(?, ?, ?, ?)'
         values = (song.title, song.lyrics, song.year, song.youtube)
         try:

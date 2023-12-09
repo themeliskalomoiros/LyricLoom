@@ -22,7 +22,6 @@ def urls(song_web_ids):
 
 
 def domna_samiou_gr():
-    
     progress = 1
     progressMax = 930
     insertions = 0
