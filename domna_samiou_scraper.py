@@ -117,9 +117,9 @@ class DomnaSamiouScraper(SongScraper):
                                 # Ex, 'Ταξινόμιση' could include 'Της Αγαπης, Του έρωτά' (2 values)
                                 many_tags_in_label = text.split(',')
                                 for tag in many_tags_in_label:
-                                    tags.append(tag)
+                                    tags.append(tag.strip())
                             else:
-                                tags.append(text.removeprefix(label))
+                                tags.append(text.removeprefix(label).strip())
 
         return tags
 
