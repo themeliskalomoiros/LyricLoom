@@ -1,64 +1,99 @@
-import requests
-from models import Artist, paradosiako_artist, unknown_artist
-from bs4 import BeautifulSoup
-from song_repo import SongRepo
+from song_scraper import *
+from models import Artist
 from song_info import SongInfo
-from song_scraper import SongScraper, PageNotLoadedException, ScrapException
 
 
 class DomnaSamiouScraper(SongScraper):
-    PARADOSI = paradosiako_artist()
+    GREEK_TRADITION = Artist('Παραδοσιακό', '')
+    UNKNOWN_ARTIST = Artist('Άγνωστος', 'Καλλιτέχνης')
 
 
-    def __init__(self, song_url):
-        self.url = song_url
-        self.soup = self.page_soup(self.url)
+    def __init__(self, url):
+        super().__init__(url)
+        self.song_info = SongInfo()
 
 
-    def scrap_song_info(self):
-        title = self.scrap_title()
-        lyrics = self.scrap_lyrics()
-        youtube = self.scrap_youtube()
-        spotify = self.scrap_spotify()
-        info = SongInfo(title, lyrics, None, youtube, spotify)
-        
-        info.add_author(self.PARADOSI)
-        info.add_composer(self.PARADOSI)
-        
-        singers = self.scrap_singers()
-        for s in singers:
-            info.add_singer(s)
-
-        tags = self.scrap_tags()
-        for t in tags:
-            info.add_tag(t)
-
-        return info
+    def get_song_info(self) -> SongInfo:
+        return self.song_info
 
 
     def scrap_title(self):
-        title_tag = self.soup.find(id='item-title')
+        tag = self.soup.find(id='item-title')
 
-        if title_tag:
-            return title_tag.get_text(strip=True)
+        if tag:
+            title = tag.get_text(strip=True)
+            if title:
+                self.song_info.set_title(title)
+            else:
+                raise ScrapException(f'Title is null {self.url}')
         else:
             raise ScrapException(f'Title not scraped {self.url}')
 
 
     def scrap_lyrics(self):
-        lyrics_tag = self.soup.find(id='item-lyrics')
+        tag = self.soup.find(id='item-lyrics')
 
-        if lyrics_tag:
-            return lyrics_tag.get_text(strip=True)
+        if tag:
+            lyrics = tag.get_text(strip=True)
+            if lyrics:
+                self.song_info.set_lyrics(lyrics)
+            else:
+                raise ScrapException(f'Lyrics are null: {self.url}')
         else:
-            raise ScrapException(f'Lyrics not scraped {self.url}')
+            raise ScrapException(f'Lyrics not scraped: {self.url}')
 
 
-    def scrap_youtube(self):
-        youtube_tag = self.soup.find(id='tools-youtube-music')
+    def scrap_release_date(self):
+        pass
 
-        if youtube_tag:
-            return youtube_tag.get('href')
+
+    def scrap_youtube_url(self):
+        tag = self.soup.find(id='tools-youtube-music')
+        if tag:
+            url = tag.get('href')
+            if url:
+                self.song_info.set_youtube(url)
+
+
+    def scrap_spotify_url(self):
+        tag = self.soup.find('a', id='tools-spotify')
+        if tag:
+            url = tag.get('href')
+            if url:
+                self.song_info.set_spotify(url)
+
+
+    def scrap_guitar_tabs(self):
+        # Not available in the website.
+        pass
+
+
+    def scrap_duration(self):
+        # Not available in the website.
+        pass
+
+
+    def scrap_authors(self):
+        self.song_info.add_author(self.GREEK_TRADITION)
+
+
+    def scrap_composers(self):
+        self.song_info.add_composer(self.GREEK_TRADITION)
+
+
+    def scrap_singers(self):
+        singers = self.extract_singers()
+        self.song_info.singers.update(singers)
+
+
+    def scrap_rhythms(self):
+        # Not available in the website.
+        pass
+
+
+    def scrap_scales(self):
+        # Not available in the website.
+        pass
 
 
     def scrap_spotify(self):
@@ -66,9 +101,14 @@ class DomnaSamiouScraper(SongScraper):
 
         if spotify_tag:
             return spotify_tag.get('href')
+
+
+    def scrap_tags(self):
+        tags = self.extract_tags()
+        self.song_info.tags.update(tags)
             
 
-    def scrap_singers(self):
+    def extract_singers(self):
         ul_tags = self.soup.find(id='song-info').find_all('ul')
         
         for ul in ul_tags:
@@ -97,10 +137,10 @@ class DomnaSamiouScraper(SongScraper):
                                 return [Artist(first_last[0], first_last[1])]
                             else:
                                 return [Artist(first_last[0], '')]
-        return [unknown_artist()]
+        return [self.UNKNOWN_ARTIST]
 
 
-    def scrap_tags(self):
+    def extract_tags(self):
         tags = []
         div = self.soup.find(id='song-info')
         
