@@ -2,15 +2,11 @@ from models import Song, Artist
 
 
 class SongInfo:
-    def __init__(
-        self,
-        title = None, 
-        lyrics = None, 
-        year = None, 
-        youtube = None, 
-        spotify = None):
-        self.song = Song(title, lyrics, year, youtube, spotify)
+    def __init__(self):
+        self.song = Song()
         self.tags = set()
+        self.scales = set()
+        self.rhythms = set()
         self.authors = set()
         self.singers = set()
         self.composers = set()
@@ -18,6 +14,14 @@ class SongInfo:
 
     def add_tag(self, tag):
         self.tags.add(tag)
+
+
+    def add_rhythm(self, rhythm):
+        self.rhythms.add(rhythm)
+
+
+    def add_scale(self, scale):
+        self.scales.add(scale)
 
 
     def add_author(self, author):
@@ -33,23 +37,23 @@ class SongInfo:
 
 
     def __str__(self):
-        s = f'Title: {self.song.title}\nYear: {self.song.year}'
-        s += f'\nYoutube: {self.song.youtube}'
-        s += f'\nSpotify: {self.song.spotify}'
-        s += f'\nLyrics: \n{self.song.lyrics}'
-
-        s += '\n\nAuthors:'
-        for a in self.authors:
-            s += f'\n{a}'
-        s += '\n\nComposers:'
-        for a in self.composers:
-            s += f'\n{a}'
-        s += '\n\nSingers:'
-        for a in self.singers:
-            s += f'\n{a}'
-
-        s += '\n\nTags:'
+        s = f'\tSong\n{self.song}'      
+        s += '\n\tTags'
         for t in self.tags:
             s += f'\n{t}'
-
+        s += '\n\tAuthors'
+        for a in self.authors:
+            s += f'\n{a}'
+        s += '\n\tComposers'
+        for a in self.composers:
+            s += f'\n{a}'
+        s += '\n\tSingers'
+        for a in self.singers:
+            s += f'\n{a}'
+        s += '\n\tRhythms'
+        for r in self.rhythms:
+            s += f'\n{r}'
+        s += '\n\tScales'
+        for a in self.scales:
+            s += f'\n{a}'
         return s
