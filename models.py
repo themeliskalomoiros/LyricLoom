@@ -1,28 +1,22 @@
 class Song:
-    def __init__(
-        self, 
-        title = None,
-        lyrics = None,
-        year = None, 
-        youtube = None,
-        spotify = None):
-        self.title = title
-        self.lyrics = lyrics
-        self.year = year
-        self.youtube = youtube
-        self.spotify = spotify
+    def __init__(self):
+        self.title = None
+        self.lyrics = None
+        self.year = None
+        self.youtube = None
+        self.spotify = None
+        self.guitar_tabs = None
+        self.duration = None
 
 
     def __str__(self):
-        s = f'Song: {self.title}'
-        
-        if self.year:
-            s += f' ({self.year})'
-        if self.youtube:
-            s += f'\nYoutube: {self.year}'
-        
-        s += f'\nLyrics:\n{self.lyrics}'
-
+        s = f'Title: <{self.title}>'
+        s += f'\nYear: <{self.title}>'
+        s += f'\nYoutube: <{self.title}>'
+        s += f'\nSpotify: <{self.title}>'
+        s += f'\nDuration: <{self.title}>'
+        s += f'\nLyrics: <{self.title}>'
+        s += f'\nGuitar Tabs: <{self.title}>'
         return s
 
 
@@ -37,13 +31,21 @@ class Song:
 
 
 class Artist:
-    def __init__(self, firstname = None, lastname = None):
-        self.firstname = firstname
-        self.lastname = lastname
+    def __init__(self):
+        self.firstname = None
+        self.lastname = None
 
 
     def __str__(self):
         return f'Artist: {self.firstname} {self.lastname}'
+
+
+    def paradosi():
+        return Artist('Παραδοσιακό', '')
+
+
+    def unknown():
+        return Artist('Άγνωστος', 'Καλλιτέχνης')
 
 
     def __eq__(self, other):
@@ -56,10 +58,3 @@ class Artist:
         return hash((self.firstname, self.lastname))
 
 
-
-def unknown_artist():
-    return Artist('Άγνωστος', 'Καλλιτέχνης')
-
-
-def paradosiako_artist():
-    return Artist('Παραδοσιακό', '')
