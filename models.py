@@ -1,8 +1,8 @@
 class Song:
     def __init__(
         self, 
-        title, 
-        lyrics, 
+        title = None,
+        lyrics = None,
         year = None, 
         youtube = None,
         spotify = None):
@@ -37,7 +37,7 @@ class Song:
 
 
 class Artist:
-    def __init__(self, firstname, lastname):
+    def __init__(self, firstname = None, lastname = None):
         self.firstname = firstname
         self.lastname = lastname
 

@@ -4,8 +4,8 @@ from models import Song, Artist
 class SongInfo:
     def __init__(
         self,
-        title, 
-        lyrics, 
+        title = None, 
+        lyrics = None, 
         year = None, 
         youtube = None, 
         spotify = None):
