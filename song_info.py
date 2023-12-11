@@ -12,6 +12,34 @@ class SongInfo:
         self.composers = set()
 
 
+    def set_title(self, title):
+        self.song.title = title
+
+
+    def set_lyrics(self, lyrics):
+        self.song.lyrics = lyrics
+
+
+    def set_year(self, year):
+        self.song.year = year
+
+
+    def set_youtube(self, youtube):
+        self.song.youtube = youtube
+
+
+    def set_spotify(self, spotify):
+        self.song.spotify = spotify
+
+
+    def set_guitar_tabs(self, guitar_tabs):
+        self.song.guitar_tabs = guitar_tabs
+
+
+    def set_duration(self, duration):
+        self.song.duration = duration
+
+        
     def add_tag(self, tag):
         self.tags.add(tag)
 
