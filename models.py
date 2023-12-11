@@ -44,8 +44,8 @@ class Artist:
         self, 
         firstname=None, 
         lastname=None):
-        self.firstname = None
-        self.lastname = None
+        self.firstname = firstname
+        self.lastname = lastname
 
 
     def greek_tradition():
