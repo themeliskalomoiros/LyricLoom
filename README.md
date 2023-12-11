@@ -19,7 +19,6 @@ LyricLoom is a Python application that web scrapes lyrics from a website and pop
     ```bash
     pip install -r requirements.txt
 
-
 ## Usage
 
 Run the LyricLoom application to scrape lyrics and populate the database (there will be a Sqlite file named 'lyrics.db' created for you the first time). Currently it scraps old greek traditional songs from [domna samiou's](https://www.domnasamiou.gr/) website, but it can be extended to scrap data from every website.
