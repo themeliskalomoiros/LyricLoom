@@ -48,16 +48,16 @@ class Artist:
         self.lastname = None
 
 
-    def __str__(self):
-        return f'Firstname: <{self.firstname}>\nLastname: <{self.lastname}>'
-
-
-    def paradosi():
+    def greek_tradition():
         return Artist('Παραδοσιακό', '')
 
 
     def unknown():
         return Artist('Άγνωστος', 'Καλλιτέχνης')
+
+
+    def __str__(self):
+        return f'Firstname: <{self.firstname}>\nLastname: <{self.lastname}>'
 
 
     def __eq__(self, other):
