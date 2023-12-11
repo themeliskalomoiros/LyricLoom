@@ -19,12 +19,12 @@ class Song:
 
     def __str__(self):
         s = f'Title: <{self.title}>'
-        s += f'\nYear: <{self.title}>'
-        s += f'\nYoutube: <{self.title}>'
-        s += f'\nSpotify: <{self.title}>'
-        s += f'\nDuration: <{self.title}>'
-        s += f'\nLyrics: <{self.title}>'
-        s += f'\nGuitar Tabs: <{self.title}>'
+        s += f'\nYear: <{self.year}>'
+        s += f'\nYoutube: <{self.youtube}>'
+        s += f'\nSpotify: <{self.spotify}>'
+        s += f'\nDuration: <{self.duration}>'
+        s += f'\nLyrics: <{self.lyrics}>'
+        s += f'\nGuitar Tabs: <{self.guitar_tabs}>'
         return s
 
 
