@@ -44,8 +44,7 @@ def urls(song_web_ids):
 def domna_samiou_gr():
     create_db_if_not_exist()
     progress = 1
-    # TODO: Set to 930
-    progressMax = 5
+    progressMax = 930
     insertions = 0
     failed_insertions = 0
     repo = SqlRepo(db_file)
@@ -53,10 +52,10 @@ def domna_samiou_gr():
 
     for url in urls(range(progress, progressMax)):
         printProgressBar(
-            progress, 
-            progressMax, 
-            prefix = 'Progress:', 
-            suffix = 'Complete', 
+            progress,
+            progressMax,
+            prefix = 'Progress:',
+            suffix = 'Complete',
             length = 100)
 
         progress += 1
@@ -82,14 +81,14 @@ def domna_samiou_gr():
             failed_insertions += 1
             log(insertions, failed_insertions)
 
-    
+
     printProgressBar(
-        1, 
-        1, 
-        prefix = 'Progress:', 
-        suffix = 'Complete', 
+        1,
+        1,
+        prefix = 'Progress:',
+        suffix = 'Complete',
         length = 100)
-    
+
     repo.commit()
     repo.close()
 
