@@ -12,7 +12,7 @@ LyricLoom is a Python application that web scrapes lyrics from a website and pop
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/LyricLoom.git
+   git clone https://github.com/themeliskalomoiros/LyricLoom.git
    cd LyricLoom
 
 2. Install dependencies:
